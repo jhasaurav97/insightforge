@@ -1,12 +1,24 @@
-
 services:
-  postgres:
+  backend:
+    build: ./backend
+    container_name: insightforge-backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: npm run dev
+
+  db:
     image: postgres:16
-    container_name: insightforge-postgres
-    restart: unless-stopped
+    container_name: insightforge-db
     environment:
-      POSTGRES_USER: insightforge
-      POSTGRES_PASSWORD: insightforge
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: insightforge
     ports:
       - "5432:5432"
