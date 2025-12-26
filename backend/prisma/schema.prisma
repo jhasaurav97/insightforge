@@ -7,8 +7,9 @@ datasource db {
     url = env("DATABASE_URL")
 }
 
-model HealthCheck {
+model User {
     id          Int       @id @default(autoincrement())
-    status      String
+    name        String
+    email       String    @unique
     createdAt   DateTime  @default(now())
 }
