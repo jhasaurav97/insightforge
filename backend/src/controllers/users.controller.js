@@ -43,9 +43,9 @@ const getUsers = asyncHandler(async (req, res) => {
     const where = search
         ? {
             OR: [
-            {name: {contains: search, mode: "insensitive"}},
-            {email: {contains: search, mode: "insensitive"}},
-        ],
+                { name: { contains: search, mode: "insensitive" } },
+                { email: { contains: search, mode: "insensitive" } },
+            ],
         } : {};
 
     // DB calls
@@ -62,7 +62,7 @@ const getUsers = asyncHandler(async (req, res) => {
                 createdAt: true
             },
         }),
-        prisma.user.count({where}),
+        prisma.user.count({ where }),
     ]);
 
     // Edge cases
@@ -87,4 +87,28 @@ const getUsers = asyncHandler(async (req, res) => {
         );
 });
 
-export { createUser, getUsers };
+const getUserById = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const user = await prisma.user.findUnique({
+        where: { id },
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            createdAt: true,
+        },
+    });
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, user)
+        );
+});
+
+export { createUser, getUsers, getUserById };

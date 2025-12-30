@@ -9,3 +9,9 @@ export const getUsersSchema = z.object({
         search: z.string().trim().min(1).optional(),
     }),
 });
+
+export const getUserByIdSchema = z.object({
+    params: z.object({
+        id: z.coerce.number().int().min(1)
+    }),
+});
