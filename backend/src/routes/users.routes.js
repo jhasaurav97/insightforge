@@ -6,6 +6,6 @@ import { getUsersSchema } from "../validators/user.validator.js";
 const router = Router();
 
 router.post("/", createUser);
-router.get("/", validate(getUsersSchema) , getUsers);
+router.get("/", validate(getUsersSchema), getUsers);
 
 export default router;

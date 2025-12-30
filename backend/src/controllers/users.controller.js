@@ -34,7 +34,7 @@ const createUser = asyncHandler(async (req, res) => {
 });
 
 const getUsers = asyncHandler(async (req, res) => {
-   const {page, limit} = req.query;
+    const { page, limit } = req.query;
 
     // Pagination method
     const skip = (page - 1) * limit;
@@ -71,7 +71,7 @@ const getUsers = asyncHandler(async (req, res) => {
                     page,
                     limit,
                     totalUsers,
-                    totalPages
+                    totalPages,
                 },
             })
         );
