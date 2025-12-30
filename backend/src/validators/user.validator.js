@@ -15,3 +15,15 @@ export const getUserByIdSchema = z.object({
         id: z.coerce.number().int().min(1)
     }),
 });
+
+export const updateUserSchema = z.object({
+    params: z.object({
+        id: z.coerce.number().int().min(1),
+    }),
+    body: z.object({
+        name: z.string().trim().min(1).optional(),
+        email: z.email().optional(),
+    }).refine(data => Object.keys(data).length > 0, {
+        message: "At least one field (name or email) is required",
+    }),
+});

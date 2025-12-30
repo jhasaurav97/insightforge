@@ -111,4 +111,34 @@ const getUserById = asyncHandler(async (req, res) => {
         );
 });
 
-export { createUser, getUsers, getUserById };
+const updateUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const data = req.body; //alreeady validate
+
+    const existingUser = await prisma.user.findUnique({
+        where: { id },
+    });
+
+    if (!existingUser) {
+        throw new ApiError(404, "User not found");
+    }
+
+    const updatedUser = await prisma.user.update({
+        where: { id },
+        data,
+        select: {
+            id: true,
+            name: true,
+            email: true,
+            createdAt: true,
+        },
+    });
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, updatedUser, "User updated successfully")
+        );
+})
+
+export { createUser, getUsers, getUserById, updateUser };
