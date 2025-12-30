@@ -34,14 +34,24 @@ const createUser = asyncHandler(async (req, res) => {
 });
 
 const getUsers = asyncHandler(async (req, res) => {
-    const { page, limit } = req.query;
+    const { page, limit, search } = req.query;
 
     // Pagination method
     const skip = (page - 1) * limit;
 
+    // Built filter only if search exists
+    const where = search
+        ? {
+            OR: [
+            {name: {contains: search, mode: "insensitive"}},
+            {email: {contains: search, mode: "insensitive"}},
+        ],
+        } : {};
+
     // DB calls
     const [users, totalUsers] = await Promise.all([
         prisma.user.findMany({
+            where,
             skip,
             take: limit,
             orderBy: { createdAt: "desc" },
@@ -52,7 +62,7 @@ const getUsers = asyncHandler(async (req, res) => {
                 createdAt: true
             },
         }),
-        prisma.user.count(),
+        prisma.user.count({where}),
     ]);
 
     // Edge cases
