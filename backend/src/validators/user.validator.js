@@ -27,3 +27,9 @@ export const updateUserSchema = z.object({
         message: "At least one field (name or email) is required",
     }),
 });
+
+export const deleteUserSchema = z.object({
+    params: z.object({
+        id: z.coerce.number().int().min(1),
+    }),
+});

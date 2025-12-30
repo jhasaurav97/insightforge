@@ -139,6 +139,28 @@ const updateUser = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(200, updatedUser, "User updated successfully")
         );
-})
+});
 
-export { createUser, getUsers, getUserById, updateUser };
+const deleteUser = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    const existingUser = await prisma.user.findUnique({
+        where: { id },
+    });
+
+    if (!existingUser) {
+        throw new ApiError(404, "User not found");
+    }
+
+    await prisma.user.delete({
+        where: {id}
+    })
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, null, "User deleted successfully")
+        );
+});
+
+export { createUser, getUsers, getUserById, updateUser, deleteUser };
