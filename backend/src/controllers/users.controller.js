@@ -34,7 +34,7 @@ const createUser = asyncHandler(async (req, res) => {
 });
 
 const getUsers = asyncHandler(async (req, res) => {
-    const { page, limit, search } = req.query;
+    const { page, limit, search, sortBy, order } = req.query;
 
     // Pagination method
     const skip = (page - 1) * limit;
@@ -47,6 +47,10 @@ const getUsers = asyncHandler(async (req, res) => {
                 { email: { contains: search, mode: "insensitive" } },
             ],
         } : {};
+    
+    const orderBy = {
+        [sortBy]: order,
+    };
 
     // DB calls
     const [users, totalUsers] = await Promise.all([
@@ -54,7 +58,7 @@ const getUsers = asyncHandler(async (req, res) => {
             where,
             skip,
             take: limit,
-            orderBy: { createdAt: "desc" },
+            orderBy,
             select: {
                 id: true,
                 name: true,

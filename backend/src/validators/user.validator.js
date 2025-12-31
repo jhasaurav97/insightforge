@@ -7,6 +7,9 @@ export const getUsersSchema = z.object({
         limit: z.coerce.number().int().min(1).max(50).default(10),
 
         search: z.string().trim().min(1).optional(),
+
+        sortBy: z.enum(["createdAt", "name"]).default("createdAt"),
+        order: z.enum(["asc", "desc"]).default("desc"),
     }),
 });
 
