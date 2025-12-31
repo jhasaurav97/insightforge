@@ -8,10 +8,17 @@ services:
       - ./backend/.env
     depends_on:
       - db
+      - ai-service        # 👈 backend depends on AI service
     volumes:
       - ./backend:/app
       - /app/node_modules
     command: npm run dev
+
+  ai-service:            # 👈 NEW SERVICE ADDED HERE
+    build: ./ai-service
+    container_name: insightforge-ai
+    ports:
+      - "8000:8000"
 
   db:
     image: postgres:16

@@ -114,3 +114,7 @@ Docker Compose orchestrates everything so local and production environments beha
 - 3. Push frequently
 - 4. No half-baked code
 - 5. Every step is runnable
+
+## “InsightForge is a Dockerized full-stack application where a Node.js backend manages users, validation, and data persistence, and communicates with a Python-based AI service to generate insights from user input.
+
+## I focused on clean API design, validation, error handling, and scalable architecture before integrating AI features.
