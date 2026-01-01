@@ -3,29 +3,49 @@ import { ApiResponse } from "../utils/api-response.js"
 import { asyncHandler } from "../utils/async-handler.js"
 import prisma from "../db/prisma.js";
 
+
 const analyze = asyncHandler(async (req, res) => {
+    console.log("BODY 👉", req.body);
+
     const { text } = req.body;
 
-    // TEMP: fake user (until auth is added)
     const userId = 2;
 
-    const aiResult = await analyzeText(text); 
+    const aiResult = await analyzeText(text);
 
-    // save to DB
     const insight = await prisma.insight.create({
         data: {
             input: text,
             output: aiResult.insight,
-            userId,
+            userId: userId,
         },
     });
 
-
-    return res
-        .status(201)
+    return res.status(201)
         .json(
             new ApiResponse(201, insight, "AI insight saved successfully")
         );
 });
 
-export { analyze };
+const getInsights = asyncHandler(async (req, res) => {
+    const userId = 2;
+
+    const insights = await prisma.insight.findMany({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+        select: {
+            id: true,
+            input: true,
+            output: true,
+            createdAt: true,
+        },
+    });
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, insights, "AI insights fetched successfully")
+        );
+});
+
+export { analyze, getInsights };
