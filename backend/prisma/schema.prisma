@@ -12,4 +12,18 @@ model User {
     name        String
     email       String    @unique
     createdAt   DateTime  @default(now())
+
+    insights    Insight[]
+}
+
+model Insight {
+    id         Int        @id @default(autoincrement())
+    input      String
+    output     String
+    createdAt  DateTime   @default(now())
+
+    userId     Int
+    user       User       @relation(fields: [userId], references: [id])
+
+    @@index([userId])
 }
