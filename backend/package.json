@@ -14,7 +14,9 @@
   "dependencies": {
     "@prisma/client": "^5.22.0",
     "axios": "^1.13.2",
+    "bcryptjs": "^3.0.3",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.3",
     "prisma": "^5.22.0",
     "zod": "^4.2.1"
   }
