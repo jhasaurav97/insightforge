@@ -1,9 +1,13 @@
+import Navbar from "./components/Navbar"
 
 function App() {
   
   return (
-    <div className="w-full h-screen bg-black">
-      <h1 className="text-3xl text-center text-white">InsightForge</h1>
+    <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-900 dark:text-gray-100">
+      <Navbar />
+      <main className="max-w-5xl mx-auto p-6">
+
+      </main>
     </div>
   )
 }
