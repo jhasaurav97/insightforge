@@ -1,13 +1,19 @@
+import { Link, useNavigate } from "react-router-dom";
+import AuthLayout from "./AuthLayout";
+import { useAuth } from "../context/AuthContext";
+import api from "../services/api.js";
 import { useState } from "react";
-import { Mail, Lock, LogIn } from "lucide-react";
-import api from "../services/api";
-import { Link } from "react-router-dom";
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const Login = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,63 +21,57 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const res = await api.post("/auth/login", { email, password });
-      localStorage.setItem("accessToken", res.data.data.accessToken);
-      localStorage.setItem("refreshToken", res.data.data.refreshToken);
-      window.location.href = "/";
-    } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+      const res = await api.post("/auth/login", form);
+      login(res.data.data);
+      navigate("/");
+    } catch (error) {
+      setError(error.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-24 p-6 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-black">
-      <h1 className="text-2xl font-semibold mb-6">Login to InsightForge</h1>
-
-      {error && <div className="mb-4 text-sm text-red-500">{error}</div>}
-
+    <AuthLayout
+      title="Welcome back"
+      subtitle="Login to your InsightForge account"
+    >
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="relative">
-          <Mail className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full pl-10 pr-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-900 outline-none"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email address"
+          onChange={handleChange}
+          required
+          className="auth-input"
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          onChange={handleChange}
+          required
+          className="auth-input"
+        />
 
-        <div className="relative">
-          <Lock className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full pl-10 pr-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-900 outline-none"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        {error && <p className="text-sm text-center text-red-500">{error}</p>}
 
         <button
           disabled={loading}
-          className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-black text-white dark:bg-white dark:text-black"
+          className="w-full rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white py-2 font-medium disabled:opacity-60"
         >
-          <LogIn className="w-4 h-4" />
-          {loading ? "Logging in..." : "Login"}
+          {loading ? "Signing in..." : "Login"}
         </button>
-      </form>
 
-      <p className="mt-4 text-sm text-gray-500">
-        Don’t have an account?{" "}
-        <Link to="/register" className="underline">
-          Register
-        </Link>
-      </p>
-    </div>
+        <p className="text-sm text-center text-gray-600 dark:text-gray-400">
+          Don’t have an account?{" "}
+          <Link to="/register" className="text-indigo-600 hover:underline">
+            Register
+          </Link>
+        </p>
+      </form>
+    </AuthLayout>
   );
-}
+};
+
+export default Login;
