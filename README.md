@@ -1,97 +1,87 @@
 # InsightForge
 
-InsightForge is a Dockerized, multi-service application built to demonstrate
-industry-grade backend architecture using Node.js, PostgreSQL, Prisma, and a
-Python-based AI service.
+InsightForge is a production-ready, full-stack AI-powered journaling and insight platform designed to help users analyze thoughts, emotions, and career concerns using structured AI analysis.
+
+
+## Live Demo
+
+- Frontend: https://insightforge-nine.vercel.app
+- Backend API: https://insightforge-backend-550x.onrender.com
+- AI Service: https://insightforge-ai.onrender.com
+
+## Source Code
+- GitHub Repository: https://github.com/jhasaurav97/insightforge
+
+## Why InsightForge?
+
+Many people struggle to process career stress, burnout, and emotional overload.
+InsightForge provides structured AI-generated insights instead of generic chatbot responses, helping users:
+
+- Reflect on thoughts more clearly
+- Identify emotional patterns
+- Receive actionable suggestions
+- Track insights over time
+
+## Key Features
+
+- Secure user authentication (JWT-based)
+- AI-powered text analysis using Gemini
+- Structured insights (summary, sentiment, keywords, action items)
+- Insight history with pagination
+- Delete and manage insights
+- Dark / Light mode UI
+- Fully deployed production setup
 
 ## Tech Stack
 
-### Backend
-
-- Node.js
-- Express.js
-- PostgreSQL (Database)
-- Prisma ORM
-- JWT Auth
-- Python (AI Service)
-- Docker & Docker Compose
-
 ### Frontend
-
 - React (Vite)
+- Tailwind CSS
+- Context API
 - Axios
-- Basic auth UI (login, register, dashboard)
 
-# HIGH-LEVEL ARCHITECTURE
+### Backend
+- Node.js
+- Express
+- Prisma ORM
+- PostgreSQL (Neon)
 
-```
-client (React)
-   |
-   |  HTTP (Axios)
-   v
-server (Node + Express)
-   |
-   | Prisma ORM
-   v
-PostgreSQL DB
-```
+### AI Service
+- Python
+- FastAPI
+- Google Gemini API
 
-## PHASE 1: Backend Foundation (TODAY – CORE)
+### Infrastructure
+- Docker & Docker Compose
+- Render (Backend & AI Service)
+- Vercel (Frontend)
 
-- Backend folder structure
-- Express server setup
-- Environment variables
-- PostgreSQL connection via Prisma
-- Basic health API
-- Dockerfile for backend
-- Docker Compose service for backend + DB
+## Architecture Overview
 
-👉 Goal: Backend + DB should start with
-**docker compose up**
+InsightForge uses a decoupled service-based architecture:
 
-## PHASE 2: Authentication System
+- React frontend communicates with a Node.js backend
+- Backend handles authentication, persistence, and authorization
+- AI processing is delegated to a separate Python service
+- AI service is fully decoupled and can be swapped (Gemini, OpenAI, local LLM) without backend changes
 
-- User model (Prisma)
-- Register API
-- Login API
-- Password hashing (bcrypt)
-- JWT token generation
-- Protected route middleware
 
-👉 Goal: Secure auth working via Postman
+## Screenshots
 
-## PHASE 3: Core Business Logic
+<img src="./screenshots/image-1.png" width="800" alt="Dashboard Dark Mode" />
 
-- (You can extend later based on idea)
+<img src="./screenshots/image-2.png" width="800" alt="Dashboard Light Mode" />
 
-**Example:**
-- Create resource (posts / services / products)
-- Read list
-- Update
-- Delete
-- Role-based access (admin/user)
+## Roadmap
 
-👉 Goal: Real CRUD with auth
+- Insight tagging and categories
+- Mood trend visualization
+- Weekly insight summaries
+- Export insights as PDF
+- OAuth login (Google)
 
-## PHASE 4: Frontend Integration
+## Author
 
-- React app structure
-- Auth pages
-- Token handling
-- API integration
-- Protected routes
+Built and maintained by Saurav Jha.
 
-👉 Goal: Full app usable in browser
-
-## PHASE 5: Production Readiness
-
-- Proper env handling
-- Docker networking
-- Volumes for DB
-- README documentation
-- Clean GitHub repo
-
-👉 Goal: Recruiter-ready project
-
-## Status
-🚧 Project under active development. Built incrementally with clean commits.
+This project represents a production-ready AI product MVP built with scalability and real-world usage in mind.
