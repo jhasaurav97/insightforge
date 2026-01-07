@@ -2,7 +2,7 @@ import { Send } from "lucide-react";
 import api from "../services/api.js";
 import { useState } from "react";
 
-const AiInput = () => {
+const AiInput = ({onSuccess}) => {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -14,6 +14,7 @@ const AiInput = () => {
     try {
       await api.post("/ai/analyze", { text });
       setText("");
+      onSuccess();
       window.dispatchEvent(new Event("refresh-insights"));
     } finally {
       setLoading(false);

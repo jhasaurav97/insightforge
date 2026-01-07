@@ -5,7 +5,7 @@ import InsightSkeleton from "./InsightSkeleton";
 import Pagination from "./Pagination";
 import { Brain } from "lucide-react";
 
-const InsightsList = () => {
+const InsightsList = ({refreshKey}) => {
   const [insights, setInsights] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -25,7 +25,7 @@ const InsightsList = () => {
 
   useEffect(() => {
     fetchInsights();
-  }, [page]);
+  }, [page, refreshKey]);
 
   const handleDelete = async (id) => {
     await api.delete(`/ai/insights/${id}`);
