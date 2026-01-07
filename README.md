@@ -2,7 +2,6 @@
 
 InsightForge is a production-ready, full-stack AI-powered journaling and insight platform designed to help users analyze thoughts, emotions, and career concerns using structured AI analysis.
 
-
 ## Live Demo
 
 - Frontend: https://insightforge-nine.vercel.app
@@ -64,7 +63,6 @@ InsightForge uses a decoupled service-based architecture:
 - Backend handles authentication, persistence, and authorization
 - AI processing is delegated to a separate Python service
 - AI service is fully decoupled and can be swapped (Gemini, OpenAI, local LLM) without backend changes
-
 
 ## Screenshots
 
