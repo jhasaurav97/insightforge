@@ -2,7 +2,6 @@ import { analyzeText } from "../services/ai.service.js";
 import { ApiResponse } from "../utils/api-response.js"
 import { asyncHandler } from "../utils/async-handler.js"
 import prisma from "../db/prisma.js";
-import { email } from "zod";
 
 
 const analyze = asyncHandler(async (req, res) => {
@@ -71,4 +70,28 @@ const getInsights = asyncHandler(async (req, res) => {
         );
 });
 
-export { analyze, getInsights };
+const deleteInsight = asyncHandler(async (req, res) => {
+    const userId = req.user.id;
+    const { id } = req.params;
+    
+    const insight = await prisma.insight.findFirst({
+        where: {
+            id: Number(id),
+            userId,
+        },
+    });
+
+    if(!insight){
+        throw new ApiError(404, "Insight not found");
+    }
+
+    await prisma.insight.delete({
+        where: {id: Number(id)},
+    });
+
+    return res.status(200).json(
+        new ApiResponse(200, null, "Insight delete successfully")
+    );
+});
+
+export { analyze, getInsights, deleteInsight };
