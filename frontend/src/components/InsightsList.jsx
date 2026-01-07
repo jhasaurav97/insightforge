@@ -1,21 +1,28 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import api from "../services/api";
 import InsightCard from "./InsightCard";
 import InsightSkeleton from "./InsightSkeleton";
 import Pagination from "./Pagination";
-import { Brain } from "lucide-react";
 
-const InsightsList = ({refreshKey}) => {
+const LIMIT = 3;
+
+const InsightsList = ({ refreshKey }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const page = Number(searchParams.get("page")) || 1;
+
   const [insights, setInsights] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const fetchInsights = async () => {
     setLoading(true);
-
     try {
-      const res = await api.get(`ai/insights?page=${page}&limit=3`);
+      const res = await api.get(
+        `/ai/insights?page=${page}&limit=${LIMIT}`
+      );
+
       setInsights(res.data.data.insights);
       setPagination(res.data.data.pagination);
     } finally {
@@ -29,11 +36,24 @@ const InsightsList = ({refreshKey}) => {
 
   const handleDelete = async (id) => {
     await api.delete(`/ai/insights/${id}`);
+
+    // Optimistic UI update
     setInsights((prev) => prev.filter((i) => i.id !== id));
+
+    // If last item deleted on page, move back one page
+    if (insights.length === 1 && page > 1) {
+      setSearchParams({ page: page - 1 });
+    }
   };
 
   if (loading) {
-    return <div className="text-sm text-gray-500">Loading insights...</div>;
+    return (
+      <div className="space-y-4">
+        {Array.from({ length: LIMIT }).map((_, i) => (
+          <InsightSkeleton key={i} />
+        ))}
+      </div>
+    );
   }
 
   if (insights.length === 0) {
@@ -46,21 +66,19 @@ const InsightsList = ({refreshKey}) => {
 
   return (
     <div className="space-y-4">
-      {loading
-        ? Array.from({ length: 3 }).map((_, i) => <InsightSkeleton key={i} />)
-        : insights.map((insight) => (
-            <InsightCard
-              key={insight.id}
-              insight={insight}
-              onDelete={handleDelete}
-            />
-          ))}
+      {insights.map((insight) => (
+        <InsightCard
+          key={insight.id}
+          insight={insight}
+          onDelete={handleDelete}
+        />
+      ))}
 
       {pagination.totalPages > 1 && (
         <Pagination
-          page={pagination.page}
+          page={page}
           totalPages={pagination.totalPages}
-          onPageChange={setPage}
+          onPageChange={(p) => setSearchParams({ page: p })}
         />
       )}
     </div>
