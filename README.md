@@ -127,7 +127,7 @@ npm run dev
 
 ## 👨‍💻 Author
 
-Saurav Jha
-Backend-leaning Full Stack Developer
+- Saurav Jha
+- Backend-leaning Full Stack Developer
 🔗 GitHub: https://github.com/jhasaurav97
 🔗 LinkedIn: https://www.linkedin.com/in/jha-saurav97/
