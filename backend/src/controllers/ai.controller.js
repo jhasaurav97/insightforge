@@ -1,6 +1,7 @@
 import { analyzeText } from "../services/ai.service.js";
-import { ApiResponse } from "../utils/api-response.js"
-import { asyncHandler } from "../utils/async-handler.js"
+import { ApiResponse } from "../utils/api-response.js";
+import { asyncHandler } from "../utils/async-handler.js";
+import { wakeAIService } from "../utils/wakeAI.js";
 import prisma from "../db/prisma.js";
 
 
@@ -9,6 +10,9 @@ const analyze = asyncHandler(async (req, res) => {
 
     // dynamic user id from JWT
     const userId = req.user.id;
+
+    // wake AI first
+    await wakeAIService();
 
     const aiResult = await analyzeText(text);
 
