@@ -5,6 +5,7 @@ import usersRoutes from "./routes/users.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import aiRoutes from "./routes/ai.routes.js";
 import errorHandler from "../src/middlewares/error.middleware.js";
+import { warmUpAI } from "./services/ai.service.js";
 
 const app = express();
 
@@ -18,6 +19,9 @@ app.use(cors({
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+// Warm up AI once backend boots
+warmUpAI();
 
 app.use("/auth", authRoutes);
 app.use("/users", usersRoutes);

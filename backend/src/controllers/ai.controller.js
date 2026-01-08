@@ -1,9 +1,15 @@
-import { analyzeText } from "../services/ai.service.js";
+// import { analyzeText } from "../services/ai.service.js";
 import { ApiResponse } from "../utils/api-response.js";
 import { asyncHandler } from "../utils/async-handler.js";
 import { wakeAIService } from "../utils/wakeAI.js";
+import { analyzeWithRetry } from "../services/aiClient.js";
 import prisma from "../db/prisma.js";
 
+
+const analyzeText = async (text) => {
+    const result = await analyzeWithRetry({ text });
+    return result;
+};
 
 const analyze = asyncHandler(async (req, res) => {
     const { text } = req.body;
@@ -42,7 +48,7 @@ const getInsights = asyncHandler(async (req, res) => {
     const [insights, total] = await Promise.all([
         prisma.insight.findMany({
             where: { userId },
-            orderBy: {createdAt: "desc"},
+            orderBy: { createdAt: "desc" },
             skip,
             take: limit,
             select: {
@@ -77,7 +83,7 @@ const getInsights = asyncHandler(async (req, res) => {
 const deleteInsight = asyncHandler(async (req, res) => {
     const userId = req.user.id;
     const { id } = req.params;
-    
+
     const insight = await prisma.insight.findFirst({
         where: {
             id: Number(id),
@@ -85,12 +91,12 @@ const deleteInsight = asyncHandler(async (req, res) => {
         },
     });
 
-    if(!insight){
+    if (!insight) {
         throw new ApiError(404, "Insight not found");
     }
 
     await prisma.insight.delete({
-        where: {id: Number(id)},
+        where: { id: Number(id) },
     });
 
     return res.status(200).json(
