@@ -129,5 +129,5 @@ npm run dev
 
 - Saurav Jha
 - Backend-leaning Full Stack Developer
-🔗 GitHub: https://github.com/jhasaurav97
-🔗 LinkedIn: https://www.linkedin.com/in/jha-saurav97/
+- 🔗 GitHub: https://github.com/jhasaurav97
+- 🔗 LinkedIn: https://www.linkedin.com/in/jha-saurav97/
