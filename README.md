@@ -1,68 +1,73 @@
-# InsightForge
+# InsightForge 🚀
 
-InsightForge is a production-ready, full-stack AI-powered journaling and insight platform designed to help users analyze thoughts, emotions, and career concerns using structured AI analysis.
+InsightForge is a **full-stack web application** designed to analyze user input and generate meaningful insights through a clean UI and a robust backend system.  
+This project was built to simulate **real-world production workflows**, including authentication, validation, database management, and deployment.
 
-## Live Demo
+🔗 **Live App:** https://insightforge-nine.vercel.app  
+🔗 **Frontend Repo:** (if separate, add link)  
 
-- Frontend: https://insightforge-nine.vercel.app
-- Backend API: https://insightforge-backend-550x.onrender.com
-- AI Service: https://insightforge-ai.onrender.com
+---
 
-## Source Code
-- GitHub Repository: https://github.com/jhasaurav97/insightforge
+## 🧠 Why InsightForge?
 
-## Why InsightForge?
+I built InsightForge to go beyond CRUD apps and focus on:
+- Backend-heavy logic
+- Clean API design
+- Database modeling
+- Real deployment challenges
+- Handling edge cases and failures in production
 
-Many people struggle to process career stress, burnout, and emotional overload.
-InsightForge provides structured AI-generated insights instead of generic chatbot responses, helping users:
+This project helped me understand how real systems behave outside tutorials.
 
-- Reflect on thoughts more clearly
-- Identify emotional patterns
-- Receive actionable suggestions
-- Track insights over time
+---
 
-## Key Features
+## ✨ Features
 
-- Secure user authentication (JWT-based)
-- AI-powered text analysis using Gemini
-- Structured insights (summary, sentiment, keywords, action items)
-- Insight history with pagination
-- Delete and manage insights
-- Dark / Light mode UI
-- Fully deployed production setup
+- User authentication (Login / Register)
+- Protected routes with JWT
+- Insight generation via backend services
+- Form validation and error handling
+- Light / Dark theme support
+- Responsive UI
+- Secure API communication
+- Production-ready deployment
 
-## Tech Stack
+---
 
-### Frontend
-- React (Vite)
-- Tailwind CSS
-- Context API
-- Axios
+## 🛠 Tech Stack
 
-### Backend
+**Frontend**
+- React
+- JavaScript (ES6+)
+- HTML, CSS, Tailwind CSS
+- React Router
+
+**Backend**
 - Node.js
-- Express
+- Express.js
+- PostgreSQL
 - Prisma ORM
-- PostgreSQL (Neon)
+- JWT Authentication
 
-### AI Service
-- Python
-- FastAPI
-- Google Gemini API
-
-### Infrastructure
-- Docker & Docker Compose
-- Render (Backend & AI Service)
+**DevOps / Tools**
+- Docker
+- Git & GitHub
+- Postman
 - Vercel (Frontend)
+- Render (Backend)
+- Neon (PostgreSQL)
 
-## Architecture Overview
+---
 
-InsightForge uses a decoupled service-based architecture:
+## 🧩 Architecture Overview
 
-- React frontend communicates with a Node.js backend
-- Backend handles authentication, persistence, and authorization
-- AI processing is delegated to a separate Python service
-- AI service is fully decoupled and can be swapped (Gemini, OpenAI, local LLM) without backend changes
+- React handles client-side routing and UI
+- Backend APIs manage authentication, validation, and business logic
+- Prisma ORM handles database schema and queries
+- Docker is used to containerize services
+- Frontend and backend are deployed independently
+
+---
 
 ## Screenshots
 
@@ -70,16 +75,59 @@ InsightForge uses a decoupled service-based architecture:
 
 <img src="./screenshots/image-2.png" width="800" alt="Dashboard Light Mode" />
 
-## Roadmap
+---
 
-- Insight tagging and categories
-- Mood trend visualization
-- Weekly insight summaries
-- Export insights as PDF
-- OAuth login (Google)
+## 🚀 Running Locally
 
-## Author
+### Prerequisites
+- Node.js (v18+ recommended)
+- PostgreSQL
+- Docker (optional)
 
-Built and maintained by Saurav Jha.
+### Setup
 
-This project represents a production-ready AI product MVP built with scalability and real-world usage in mind.
+```bash
+git clone https://github.com/jhasaurav97/insightforge.git
+cd insightforge
+npm install
+```
+Create a .env file and add:
+```
+DATABASE_URL=your_database_url
+ACCESS_TOKEN_SECRET=your_secret_key
+ACCESS_TOKEN_EXPIRY=1d
+
+REFRESH_TOKEN_EXPIRY=your_secret_key
+REFRESH_TOKEN_EXPIRY=7d
+```
+Run the app:
+```
+npm run dev
+```
+---
+
+## 🧪 Real Issues Solved
+
+- Fixed React Router refresh 404 issue on Vercel using rewrite rules
+- Resolved CORS and SPA routing problems
+- Handled Prisma + Docker compatibility issues
+- Debugged deployment failures across multiple platforms
+
+---
+
+## What I Learned
+
+- Designing APIs with scalability in mind
+- Handling authentication and protected routes
+- Debugging real production issues
+- Structuring full-stack applications cleanly
+- Deploying and maintaining apps outside localhost
+
+---
+
+## 👨‍💻 Author
+
+Saurav Jha
+Backend-leaning Full Stack Developer
+🔗 GitHub: https://github.com/jhasaurav97
+🔗 LinkedIn: https://www.linkedin.com/in/jha-saurav97/
