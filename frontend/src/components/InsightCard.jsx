@@ -15,11 +15,18 @@ const InsightCard = ({ insight, onDelete }) => {
       {/* Sentiment */}
       <span
         className={`inline-block mb-3 px-3 py-1 text-sm rounded-full
-                ${data.sentiment === "negative" && "bg-red-100 text-red-700"}
                 ${
-                  data.sentiment === "positive" && "bg-green-100 text-green-700"
+                  String(insight.sentiment) === "negative" &&
+                  "bg-red-100 text-red-700"
                 }
-                ${data.sentiment === "neutral" && "bg-gray-100 text-gray-700"}
+                ${
+                  String(insight.sentiment) === "positive" &&
+                  "bg-green-100 text-green-700"
+                }
+                ${
+                  String(insight.sentiment) === "neutral" &&
+                  "bg-gray-100 text-gray-700"
+                }
                 `}
       >
         {String(insight.sentiment || "")}
@@ -50,7 +57,11 @@ const InsightCard = ({ insight, onDelete }) => {
 
       {/* Footer */}
       <div className="flex justify-between items-center mt-4 text-xs text-gray-500">
-        <span>{new Date(insight.createdAt).toLocaleString()}</span>
+        <span>
+          {insight.createdAt
+            ? new Date(insight.createdAt).toLocaleString()
+            : ""}
+        </span>
 
         <button
           onClick={() => onDelete(insight.id)}
