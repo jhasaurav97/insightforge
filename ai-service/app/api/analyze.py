@@ -16,11 +16,22 @@ def clean_markdown_json(text: str) -> str:
 @router.post("/analyze")
 def analyze_text(payload: AnalyzeRequest):
     prompt = f"""
-Analyze the following user input and return ONLY valid JSON with:
-- summary
-- sentiment (positive | neutral | negative)
-- keywords
-- action_items
+You are an AI assistant for InsightForge.
+
+Analyze the user's input and return ONLY valid JSON with the following structure:
+
+- summary: a concise explanation or reflection of the user's input
+- sentiment: one of (positive | neutral | negative)
+- keywords: important keywords or concepts from the input
+- action_items: practical suggestions OR direct answers depending on intent
+
+Rules:
+1. If the user input is emotional, reflective, or personal:
+   - Provide reflective action items (self-help, guidance, next steps)
+
+2. If the user input is a question or asks for definitions, explanations, or concepts:
+   - Provide clear, direct answers inside action_items
+   - Do NOT give generic advice in this case
 
 User input:
 {payload.text}
