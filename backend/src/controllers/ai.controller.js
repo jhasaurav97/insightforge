@@ -2,7 +2,7 @@
 import { ApiResponse } from "../utils/api-response.js";
 import { asyncHandler } from "../utils/async-handler.js";
 import { wakeAIService } from "../utils/wakeAI.js";
-import { analyzeWithRetry } from "../services/aiClient.js";
+import { analyzeWithRetry } from "../services/ai.service.js";
 import prisma from "../db/prisma.js";
 
 

@@ -23,23 +23,22 @@ export const warmUpAI = async () => {
         aiWarmedUp = true;
         console.log("✅ AI service warmed up");
     } catch (err) {
-        console.log("⚠️ AI warm-up failed, will retry on demand");
+        console.log("⚠️ AI warm-up failed, will retry later");
     }
 };
 
 // ---- Analyze with retry ----
-export const analyzeText = async (text, retries = 1) => {
+export const analyzeWithRetry = async (payload, retries = 1) => {
     try {
-        const response = await aiAxios.post("/ai/analyze", { text });
+        const response = await aiAxios.post("/ai/analyze", payload);
         return response.data;
-    } catch (error) {
+    } catch (err) {
         if (retries > 0) {
-            console.log("🔁 AI analyze failed, retrying...");
+            console.log("🔁 AI request failed, retrying...");
             await warmUpAI();
-            return analyzeText(text, retries - 1);
+            return analyzeWithRetry(payload, retries - 1);
         }
 
-        console.error("❌ AI error:", error.message);
-        throw error;
+        throw err;
     }
 };
