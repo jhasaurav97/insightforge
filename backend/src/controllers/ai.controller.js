@@ -22,10 +22,16 @@ const analyze = asyncHandler(async (req, res) => {
 
     const aiResult = await analyzeText(text);
 
+    // normalize output
+    const normalizeOutput =
+        typeof aiResult === "string"
+            ? aiResult
+            : JSON.stringify(aiResult);
+
     const insight = await prisma.insight.create({
         data: {
             input: text,
-            output: aiResult.insight,
+            output: normalizeOutput,
             userId: userId,
         },
     });
