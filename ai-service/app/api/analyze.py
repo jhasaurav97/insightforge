@@ -1,4 +1,5 @@
 import re
+import json
 from fastapi import APIRouter
 from pydantic import BaseModel
 from app.core.gemini_client import model
@@ -40,6 +41,28 @@ User input:
     response = model.generate_content(prompt)
     cleaned = clean_markdown_json(response.text)
 
-    return {
-        "insight": cleaned
-    }
+    try:
+        parsed = json.loads(cleaned)
+    except Exception:
+        return {
+            "summary": "Unable to analyze input",
+            "sentiment": "neutral",
+            "keywords": [],
+            "action_items": []
+        }
+
+        # Normalize action_items to string[]
+        normalized = []
+        for item in parsed.get("action_items", []):
+        if isinstance(item, dict):
+            normalized.append(
+                item.get("item")
+                or item.get("explanation")
+                or str(item)
+            )
+            else:
+                normalized.append(str(item))
+
+    parsed["action_items"] = normalized
+
+    return parsed
