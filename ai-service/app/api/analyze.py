@@ -19,20 +19,17 @@ def analyze_text(payload: AnalyzeRequest):
     prompt = f"""
 You are an AI assistant for InsightForge.
 
-Analyze the user's input and return ONLY valid JSON with the following structure:
-
-- summary: a concise explanation or reflection of the user's input
-- sentiment: one of (positive | neutral | negative)
-- keywords: important keywords or concepts from the input
-- action_items: practical suggestions OR direct answers depending on intent
+Analyze the user's input and return ONLY valid JSON with:
+- summary
+- sentiment (positive | neutral | negative)
+- keywords
+- action_items (array of strings only)
 
 Rules:
-1. If the user input is emotional, reflective, or personal:
-   - Provide reflective action items (self-help, guidance, next steps)
-
-2. If the user input is a question or asks for definitions, explanations, or concepts:
-   - Provide clear, direct answers inside action_items
-   - Do NOT give generic advice in this case
+- If the input is a question, provide direct answers in action_items
+- No markdown
+- No code blocks
+- No nested objects inside action_items
 
 User input:
 {payload.text}
@@ -51,17 +48,17 @@ User input:
             "action_items": []
         }
 
-        # Normalize action_items to string[]
-        normalized = []
-        for item in parsed.get("action_items", []):
+    # Normalize action_items to string[]
+    normalized = []
+    for item in parsed.get("action_items", []):
         if isinstance(item, dict):
             normalized.append(
                 item.get("item")
                 or item.get("explanation")
                 or str(item)
             )
-            else:
-                normalized.append(str(item))
+        else:
+            normalized.append(str(item))
 
     parsed["action_items"] = normalized
 
