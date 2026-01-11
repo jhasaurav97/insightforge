@@ -4,7 +4,6 @@ InsightForge is a **AI Powered full-stack web application** designed to analyze 
 This project was built to simulate **real-world production workflows**, including authentication, validation, database management, and deployment.
 
 🔗 **Live App:** https://insightforge-nine.vercel.app  
-🔗 **Frontend Repo:** (if separate, add link)  
 
 ---
 
