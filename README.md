@@ -1,6 +1,6 @@
 # InsightForge 🚀
 
-InsightForge is a **full-stack web application** designed to analyze user input and generate meaningful insights through a clean UI and a robust backend system.  
+InsightForge is a **AI Powered full-stack web application** designed to analyze user input and generate meaningful insights through a clean UI and a robust backend system.  
 This project was built to simulate **real-world production workflows**, including authentication, validation, database management, and deployment.
 
 🔗 **Live App:** https://insightforge-nine.vercel.app  
